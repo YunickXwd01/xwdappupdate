@@ -1,18 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>XWD Apps • Official APK Store</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== MODERN RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -64,20 +60,17 @@
             align-items: center;
         }
 
-        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
         ::-webkit-scrollbar-thumb { background: #1f2a40; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #2f3d5c; }
 
-        /* ===== LAYOUT ===== */
         .store-container {
             max-width: 1100px;
             width: 100%;
             margin: 0 auto;
         }
 
-        /* ===== HEADER ===== */
         .store-header {
             display: flex;
             flex-direction: column;
@@ -149,7 +142,6 @@
             font-weight: 600;
         }
 
-        /* ===== STATS BAR ===== */
         .stats-bar {
             display: flex;
             justify-content: center;
@@ -178,7 +170,6 @@
             font-family: var(--font-heading);
         }
 
-        /* ===== SECTION HEADER ===== */
         .section-header {
             display: flex;
             align-items: center;
@@ -212,7 +203,6 @@
             border: 1px solid rgba(10, 132, 255, 0.2);
         }
 
-        /* ===== APP GRID ===== */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -220,7 +210,6 @@
             margin-bottom: 3rem;
         }
 
-        /* ===== APP CARD ===== */
         .app-card {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
@@ -284,7 +273,6 @@
 
         .app-card:hover::before { opacity: 1; }
 
-        /* ===== CARD TOP ===== */
         .card-top {
             display: flex;
             align-items: flex-start;
@@ -315,7 +303,6 @@
             transform: scale(1.04) rotate(-1deg);
         }
 
-        /* Icon variants */
         .icon-blue { background: linear-gradient(145deg, #0f8bff, #0060df); }
         .icon-purple { background: linear-gradient(145deg, #a855f7, #7c3aed); }
         .icon-green { background: linear-gradient(145deg, #30d158, #1a9e3e); }
@@ -395,7 +382,6 @@
 
         .card-meta-tag.new-tag i { color: var(--accent-green); }
 
-        /* ===== CARD BOTTOM ===== */
         .card-bottom {
             margin-top: auto;
             display: flex;
@@ -481,7 +467,6 @@
 
         .download-btn-card:hover::after { left: 100%; }
 
-        /* ===== LOADING / EMPTY / ERROR STATES ===== */
         .state-card {
             grid-column: 1 / -1;
             text-align: center;
@@ -538,7 +523,6 @@
             border-color: rgba(10, 132, 255, 0.5);
         }
 
-        /* Loading spinner */
         .spinner {
             width: 48px;
             height: 48px;
@@ -553,7 +537,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ===== FOOTER ===== */
         .store-footer {
             text-align: center;
             padding: 2.5rem 0 1rem;
@@ -597,7 +580,6 @@
             font-size: 0.7rem;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             body { padding: 1.5rem 1rem 3rem; }
             .app-grid { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -635,7 +617,6 @@
 </head>
 <body>
     <div class="store-container">
-        <!-- ===== HEADER ===== -->
         <header class="store-header">
             <div class="store-badge">
                 <i class="fas fa-circle"></i>
@@ -663,7 +644,6 @@
             </div>
         </header>
 
-        <!-- ===== SECTION HEADER ===== -->
         <div class="section-header">
             <div class="section-title">
                 <i class="fas fa-layer-group"></i>
@@ -672,12 +652,9 @@
             <div class="section-count" id="sectionCount">Loading…</div>
         </div>
 
-        <!-- ===== APP GRID ===== -->
         <div class="app-grid" id="appGrid">
-            <!-- Loading state injected by JS -->
         </div>
 
-        <!-- ===== FOOTER ===== -->
         <footer class="store-footer">
             <p>
                 <i class="fas fa-bolt"></i>
@@ -691,19 +668,16 @@
         (function() {
             'use strict';
 
-            // ===== CONFIG =====
             const REPO_OWNER = 'YunickXwd01';
             const REPO_NAME = 'XWDSMS';
             const BRANCH = 'main';
             const RAW_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/`;
             const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/?ref=${BRANCH}`;
 
-            // ===== DOM REFERENCES =====
             const appGrid = document.getElementById('appGrid');
             const appCountEl = document.getElementById('appCount');
             const sectionCountEl = document.getElementById('sectionCount');
 
-            // ===== ICON COLOR PALETTE =====
             const ICON_COLORS = [
                 'icon-blue', 'icon-purple', 'icon-green', 'icon-orange',
                 'icon-red', 'icon-teal', 'icon-pink', 'icon-indigo',
@@ -711,7 +685,6 @@
                 'icon-rose', 'icon-amber', 'icon-violet', 'icon-sky'
             ];
 
-            // ===== UTILITIES =====
             function escapeHtml(str) {
                 return String(str)
                     .replace(/&/g, '&amp;')
@@ -729,7 +702,6 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
-            // Parse "XWD SMS_1.4.apk" → { name: "XWD SMS", version: "1.4" }
             function parseApkFilename(filename) {
                 const baseName = filename.replace(/\.apk$/i, '');
                 const versionMatch = baseName.match(/^(.+?)[_\-\s]+v?(\d+(?:\.\d+)*)$/i);
@@ -745,7 +717,6 @@
                 };
             }
 
-            // Get short icon letter
             function getIconLetter(name) {
                 const stripped = name.replace(/^XWD\s+/i, '').trim();
                 const source = stripped.length > 0 ? stripped : name;
@@ -753,7 +724,6 @@
                 return cleaned.length > 0 ? cleaned.charAt(0).toUpperCase() : '?';
             }
 
-            // Deterministic color picker
             function pickColor(name) {
                 let hash = 0;
                 for (let i = 0; i < name.length; i++) {
@@ -763,7 +733,6 @@
                 return ICON_COLORS[Math.abs(hash) % ICON_COLORS.length];
             }
 
-            // Smart description generator
             function generateDescription(name) {
                 const descriptions = {
                     'sms': 'Powerful SMS management tool with bulk sending, scheduling, and advanced filtering capabilities.',
@@ -798,7 +767,6 @@
                 return `${name} — a premium Android application built by XWD. Lightweight, fast, and completely free.`;
             }
 
-            // ===== RENDER STATES =====
             function renderLoading() {
                 appGrid.innerHTML = `
                     <div class="state-card">
@@ -841,7 +809,6 @@
                 if (sectionCountEl) sectionCountEl.textContent = 'Error';
             }
 
-            // ===== RENDER APP CARD =====
             function renderAppCard(file, index, totalCount) {
                 const { name, version } = parseApkFilename(file.name);
                 const iconLetter = getIconLetter(name);
@@ -862,7 +829,6 @@
                 card.className = 'app-card';
                 card.setAttribute('data-app', safeFileName);
 
-                // Show "Latest" tag on the newest (first) file
                 const latestTag = index === 0 && totalCount > 1
                     ? '<span class="card-meta-tag new-tag"><i class="fas fa-star"></i> Latest</span>'
                     : '';
@@ -900,7 +866,6 @@
                 return card;
             }
 
-            // ===== RENDER APP LIST =====
             function renderApps(files) {
                 appGrid.innerHTML = '';
                 const count = files.length;
@@ -912,7 +877,6 @@
                 });
             }
 
-            // ===== FETCH FROM GITHUB API =====
             async function fetchAndRender() {
                 renderLoading();
 
@@ -937,12 +901,10 @@
                         throw new Error('Unexpected response format from GitHub API.');
                     }
 
-                    // Only .apk files at the root
                     const apkFiles = contents.filter(item =>
                         item.type === 'file' && item.name.toLowerCase().endsWith('.apk')
                     );
 
-                    // Sort alphabetically for a stable order
                     apkFiles.sort((a, b) => a.name.localeCompare(b.name));
 
                     if (apkFiles.length === 0) {
@@ -958,7 +920,6 @@
                 }
             }
 
-            // ===== INIT =====
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', fetchAndRender);
             } else {

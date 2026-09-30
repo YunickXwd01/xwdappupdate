@@ -1,1 +1,970 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>XWD Apps • Official APK Store</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== MODERN RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #07090f;
+            --bg-card: rgba(18, 24, 38, 0.75);
+            --bg-card-hover: rgba(26, 34, 52, 0.9);
+            --border-glass: rgba(255, 255, 255, 0.06);
+            --border-glass-hover: rgba(255, 255, 255, 0.12);
+            --text-primary: #f0f4ff;
+            --text-secondary: #8b9ac0;
+            --text-muted: #4f5f7e;
+            --accent-blue: #0a84ff;
+            --accent-blue-deep: #0060df;
+            --accent-glow: rgba(10, 132, 255, 0.4);
+            --accent-green: #30d158;
+            --accent-orange: #ff9f0a;
+            --radius-lg: 2rem;
+            --radius-md: 1.25rem;
+            --radius-sm: 0.75rem;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-heading: 'Space Grotesk', 'Inter', sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse 80% 60% at 10% 10%, rgba(10, 132, 255, 0.08), transparent),
+                radial-gradient(ellipse 60% 50% at 90% 90%, rgba(120, 0, 255, 0.06), transparent),
+                radial-gradient(ellipse 50% 40% at 50% 50%, rgba(0, 200, 255, 0.04), transparent),
+                var(--bg-dark);
+            font-family: var(--font-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 2rem 1.5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1f2a40; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2f3d5c; }
+
+        /* ===== LAYOUT ===== */
+        .store-container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .store-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .store-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(10, 132, 255, 0.12);
+            border: 1px solid rgba(10, 132, 255, 0.25);
+            color: #6cb4ff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .store-badge i {
+            font-size: 0.7rem;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .store-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 20%, #a0b8ff 60%, #6cb4ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        .store-title i {
+            font-size: 0.8em;
+            background: linear-gradient(135deg, #0a84ff, #6cb4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 0.15em;
+        }
+
+        .store-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .store-subtitle strong {
+            color: #a0b8ff;
+            font-weight: 600;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-item i {
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        .stat-item span {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 0 0.25rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .section-title i {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+
+        .section-count {
+            background: rgba(10, 132, 255, 0.15);
+            color: #6cb4ff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            border: 1px solid rgba(10, 132, 255, 0.2);
+        }
+
+        /* ===== APP GRID ===== */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* ===== APP CARD ===== */
+        .app-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            border: 1px solid var(--border-glass);
+            box-shadow:
+                0 20px 40px -15px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            transition: all var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: card-fade-in 0.5s ease backwards;
+        }
+
+        .app-card:nth-child(1) { animation-delay: 0.05s; }
+        .app-card:nth-child(2) { animation-delay: 0.1s; }
+        .app-card:nth-child(3) { animation-delay: 0.15s; }
+        .app-card:nth-child(4) { animation-delay: 0.2s; }
+        .app-card:nth-child(5) { animation-delay: 0.25s; }
+        .app-card:nth-child(6) { animation-delay: 0.3s; }
+        .app-card:nth-child(7) { animation-delay: 0.35s; }
+        .app-card:nth-child(8) { animation-delay: 0.4s; }
+
+        @keyframes card-fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), #a855f7, var(--accent-blue));
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+            animation: gradient-shift 3s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .app-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glass-hover);
+            transform: translateY(-5px);
+            box-shadow:
+                0 30px 60px -20px rgba(0, 0, 0, 0.85),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 0 40px rgba(10, 132, 255, 0.08);
+        }
+
+        .app-card:hover::before { opacity: 1; }
+
+        /* ===== CARD TOP ===== */
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .app-icon-lg {
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            position: relative;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+            transition: transform var(--transition-fast);
+            user-select: none;
+            letter-spacing: -0.03em;
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .app-card:hover .app-icon-lg {
+            transform: scale(1.04) rotate(-1deg);
+        }
+
+        /* Icon variants */
+        .icon-blue { background: linear-gradient(145deg, #0f8bff, #0060df); }
+        .icon-purple { background: linear-gradient(145deg, #a855f7, #7c3aed); }
+        .icon-green { background: linear-gradient(145deg, #30d158, #1a9e3e); }
+        .icon-orange { background: linear-gradient(145deg, #ff9f0a, #e08600); }
+        .icon-red { background: linear-gradient(145deg, #ff453a, #cc2d23); }
+        .icon-teal { background: linear-gradient(145deg, #00c7be, #00a19a); }
+        .icon-pink { background: linear-gradient(145deg, #ff375f, #d42a4a); }
+        .icon-indigo { background: linear-gradient(145deg, #5e5ce6, #4240c4); }
+        .icon-yellow { background: linear-gradient(145deg, #ffd60a, #d4b000); color: #1a1a1a; text-shadow: none; }
+        .icon-mint { background: linear-gradient(145deg, #66d4cf, #3aa8a2); }
+        .icon-lime { background: linear-gradient(145deg, #a3e635, #84cc16); color: #1a1a1a; text-shadow: none; }
+        .icon-cyan { background: linear-gradient(145deg, #22d3ee, #0891b2); }
+        .icon-rose { background: linear-gradient(145deg, #fb7185, #e11d48); }
+        .icon-amber { background: linear-gradient(145deg, #fbbf24, #d97706); color: #1a1a1a; text-shadow: none; }
+        .icon-violet { background: linear-gradient(145deg, #8b5cf6, #6d28d9); }
+        .icon-sky { background: linear-gradient(145deg, #38bdf8, #0284c7); }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-app-name {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            line-height: 1.25;
+            word-break: break-word;
+        }
+
+        .card-app-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .card-meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            letter-spacing: 0.02em;
+        }
+
+        .card-meta-tag i {
+            font-size: 0.6rem;
+            color: var(--accent-blue);
+        }
+
+        .card-meta-tag.new-tag {
+            color: var(--accent-green);
+            border-color: rgba(48, 209, 88, 0.2);
+            background: rgba(48, 209, 88, 0.08);
+        }
+
+        .card-meta-tag.new-tag i { color: var(--accent-green); }
+
+        /* ===== CARD BOTTOM ===== */
+        .card-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .card-file-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0 0.15rem;
+        }
+
+        .card-file-row span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .card-file-row i { font-size: 0.7rem; }
+
+        .download-btn-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: linear-gradient(135deg, #0a84ff, #0060df);
+            border: none;
+            border-radius: 1.2rem;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow:
+                0 8px 20px -6px rgba(0, 102, 255, 0.45),
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            gap: 0.6rem;
+            position: relative;
+            overflow: hidden;
+            font-family: var(--font-body);
+        }
+
+        .download-btn-card i {
+            font-size: 1rem;
+            transition: transform var(--transition-fast);
+        }
+
+        .download-btn-card:hover {
+            background: linear-gradient(135deg, #1a8cff, #0070f0);
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 25px -6px rgba(0, 102, 255, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        }
+
+        .download-btn-card:hover i { transform: translateY(2px); }
+
+        .download-btn-card:active {
+            transform: translateY(1px);
+            box-shadow:
+                0 5px 12px -4px rgba(0, 102, 255, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .download-btn-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .download-btn-card:hover::after { left: 100%; }
+
+        /* ===== LOADING / EMPTY / ERROR STATES ===== */
+        .state-card {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .state-card i.state-icon {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .state-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .state-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 400px;
+        }
+
+        .state-card .retry-btn {
+            margin-top: 0.75rem;
+            background: rgba(10, 132, 255, 0.15);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            color: #6cb4ff;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-body);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .state-card .retry-btn:hover {
+            background: rgba(10, 132, 255, 0.25);
+            border-color: rgba(10, 132, 255, 0.5);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== FOOTER ===== */
+        .store-footer {
+            text-align: center;
+            padding: 2.5rem 0 1rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .store-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        .store-footer p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            letter-spacing: 0.02em;
+        }
+
+        .store-footer .brand {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-family: var(--font-heading);
+            letter-spacing: 0.01em;
+        }
+
+        .store-footer i.fa-bolt {
+            color: var(--accent-blue);
+            font-size: 0.7rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { padding: 1.5rem 1rem 3rem; }
+            .app-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+            .store-header { margin-bottom: 2rem; }
+            .stats-bar { gap: 1.25rem; }
+            .app-card { padding: 1.4rem; border-radius: 1.5rem; }
+            .app-icon-lg { width: 3.8rem; height: 3.8rem; font-size: 1.9rem; border-radius: 1.25rem; }
+            .card-app-name { font-size: 1.15rem; }
+        }
+
+        @media (max-width: 400px) {
+            body { padding: 1rem 0.75rem 2.5rem; }
+            .app-card { padding: 1.2rem; border-radius: 1.25rem; }
+            .app-icon-lg { width: 3.3rem; height: 3.3rem; font-size: 1.6rem; border-radius: 1rem; }
+            .card-app-name { font-size: 1.05rem; }
+            .download-btn-card { padding: 0.75rem 1rem; font-size: 0.85rem; border-radius: 1rem; }
+            .stats-bar { gap: 1rem; font-size: 0.8rem; }
+        }
+
+        .download-btn-card:focus-visible {
+            outline: 3px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 3px;
+        }
+
+        a { -webkit-tap-highlight-color: transparent; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="store-container">
+        <!-- ===== HEADER ===== -->
+        <header class="store-header">
+            <div class="store-badge">
+                <i class="fas fa-circle"></i>
+                Official Release
+            </div>
+            <h1 class="store-title">
+                XWD <i class="fas fa-bolt"></i> Apps
+            </h1>
+            <p class="store-subtitle">
+                All the <strong>latest versions</strong> of official <strong>XWD Apps</strong> — download directly, 100% free &amp; safe.
+            </p>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <i class="fas fa-box-open"></i>
+                    <span id="appCount">…</span> Apps Available
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100%</span> Safe &amp; Clean
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Live</span> Sync
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== SECTION HEADER ===== -->
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-layer-group"></i>
+                All Applications
+            </div>
+            <div class="section-count" id="sectionCount">Loading…</div>
+        </div>
+
+        <!-- ===== APP GRID ===== -->
+        <div class="app-grid" id="appGrid">
+            <!-- Loading state injected by JS -->
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="store-footer">
+            <p>
+                <i class="fas fa-bolt"></i>
+                <span class="brand">XWD Apps</span>
+                — Built with precision. Updated with care.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== CONFIG =====
+            const REPO_OWNER = 'YunickXwd01';
+            const REPO_NAME = 'XWDSMS';
+            const BRANCH = 'main';
+            const RAW_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/`;
+            const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/?ref=${BRANCH}`;
+
+            // ===== DOM REFERENCES =====
+            const appGrid = document.getElementById('appGrid');
+            const appCountEl = document.getElementById('appCount');
+            const sectionCountEl = document.getElementById('sectionCount');
+
+            // ===== ICON COLOR PALETTE =====
+            const ICON_COLORS = [
+                'icon-blue', 'icon-purple', 'icon-green', 'icon-orange',
+                'icon-red', 'icon-teal', 'icon-pink', 'icon-indigo',
+                'icon-yellow', 'icon-mint', 'icon-lime', 'icon-cyan',
+                'icon-rose', 'icon-amber', 'icon-violet', 'icon-sky'
+            ];
+
+            // ===== UTILITIES =====
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function formatBytes(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Parse "XWD SMS_1.4.apk" → { name: "XWD SMS", version: "1.4" }
+            function parseApkFilename(filename) {
+                const baseName = filename.replace(/\.apk$/i, '');
+                const versionMatch = baseName.match(/^(.+?)[_\-\s]+v?(\d+(?:\.\d+)*)$/i);
+                if (versionMatch) {
+                    return {
+                        name: versionMatch[1].replace(/[_-]+/g, ' ').trim(),
+                        version: versionMatch[2]
+                    };
+                }
+                return {
+                    name: baseName.replace(/[_-]+/g, ' ').trim() || baseName,
+                    version: null
+                };
+            }
+
+            // Get short icon letter
+            function getIconLetter(name) {
+                const stripped = name.replace(/^XWD\s+/i, '').trim();
+                const source = stripped.length > 0 ? stripped : name;
+                const cleaned = source.replace(/[^a-zA-Z0-9]/g, '');
+                return cleaned.length > 0 ? cleaned.charAt(0).toUpperCase() : '?';
+            }
+
+            // Deterministic color picker
+            function pickColor(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    hash = ((hash << 5) - hash) + name.charCodeAt(i);
+                    hash |= 0;
+                }
+                return ICON_COLORS[Math.abs(hash) % ICON_COLORS.length];
+            }
+
+            // Smart description generator
+            function generateDescription(name) {
+                const descriptions = {
+                    'sms': 'Powerful SMS management tool with bulk sending, scheduling, and advanced filtering capabilities.',
+                    'vpn': 'Lightning-fast, secure VPN with unlimited bandwidth, no logs, and servers worldwide.',
+                    'cleaner': 'Deep clean junk files, boost RAM, and extend battery life with one tap. Smart and safe.',
+                    'player': 'All-format video player with 4K support, gesture controls, and subtitle sync.',
+                    'scanner': 'Document scanner with OCR, PDF export, and cloud sync. Your portable scanner.',
+                    'notes': 'Minimalist note-taking with markdown, encryption, and cross-device sync.',
+                    'camera': 'Pro camera with manual controls, RAW capture, and advanced editing tools.',
+                    'music': 'Offline music player with equalizer, playlists, and beautiful visualizations.',
+                    'browser': 'Fast, private browser with ad-blocker, incognito mode, and tab management.',
+                    'launcher': 'Customizable launcher with icon packs, gestures, and smooth animations.',
+                    'keyboard': 'Smart keyboard with swipe typing, themes, and multilingual support.',
+                    'weather': 'Accurate weather forecasts with radar, alerts, and beautiful widgets.',
+                    'gallery': 'Beautiful gallery with albums, editing tools, and cloud backup support.',
+                    'file': 'Powerful file manager with root support, cloud sync, and archive tools.',
+                    'download': 'Fast download manager with multi-threaded downloads and resume support.',
+                    'torch': 'Bright flashlight with strobe, SOS mode, and adjustable brightness levels.',
+                    'calculator': 'Scientific calculator with history, unit conversion, and beautiful themes.',
+                    'calendar': 'Elegant calendar with events, reminders, and widget support.',
+                    'clock': 'Beautiful clock with alarms, timers, stopwatch, and world time.',
+                    'recorder': 'High-quality voice recorder with waveform, playback speed, and cloud sync.',
+                    'radio': 'Online radio player with thousands of stations from around the world.',
+                    'wallpaper': 'Stunning HD and 4K wallpapers with auto-change and customization.',
+                    'emoji': 'Expressive emoji keyboard with stickers, GIFs, and customization.'
+                };
+
+                const lower = name.toLowerCase();
+                for (const [key, desc] of Object.entries(descriptions)) {
+                    if (lower.includes(key)) return desc;
+                }
+                return `${name} — a premium Android application built by XWD. Lightweight, fast, and completely free.`;
+            }
+
+            // ===== RENDER STATES =====
+            function renderLoading() {
+                appGrid.innerHTML = `
+                    <div class="state-card">
+                        <div class="spinner"></div>
+                        <h3>Fetching apps from GitHub…</h3>
+                        <p>Loading the latest APK list from the repository</p>
+                    </div>
+                `;
+                if (appCountEl) appCountEl.textContent = '…';
+                if (sectionCountEl) sectionCountEl.textContent = 'Loading…';
+            }
+
+            function renderEmpty() {
+                appGrid.innerHTML = `
+                    <div class="state-card">
+                        <i class="fas fa-folder-open state-icon"></i>
+                        <h3>No APKs found in the repository</h3>
+                        <p>There are currently no .apk files available at the root of <strong>${escapeHtml(REPO_OWNER)}/${escapeHtml(REPO_NAME)}</strong> on the <strong>${escapeHtml(BRANCH)}</strong> branch.</p>
+                        <button class="retry-btn" onclick="location.reload()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                `;
+                if (appCountEl) appCountEl.textContent = '0';
+                if (sectionCountEl) sectionCountEl.textContent = '0 APKs';
+            }
+
+            function renderError(message) {
+                appGrid.innerHTML = `
+                    <div class="state-card">
+                        <i class="fas fa-exclamation-triangle state-icon"></i>
+                        <h3>Couldn't load apps</h3>
+                        <p>${escapeHtml(message)}</p>
+                        <button class="retry-btn" onclick="location.reload()">
+                            <i class="fas fa-redo"></i> Try again
+                        </button>
+                    </div>
+                `;
+                if (appCountEl) appCountEl.textContent = '—';
+                if (sectionCountEl) sectionCountEl.textContent = 'Error';
+            }
+
+            // ===== RENDER APP CARD =====
+            function renderAppCard(file, index, totalCount) {
+                const { name, version } = parseApkFilename(file.name);
+                const iconLetter = getIconLetter(name);
+                const colorClass = pickColor(name);
+                const description = generateDescription(name);
+                const downloadUrl = file.download_url || (RAW_BASE + encodeURIComponent(file.name));
+                const sizeText = file.size ? formatBytes(file.size) : 'Unknown size';
+                const versionTag = version ? `v${version}` : 'latest';
+
+                const safeName = escapeHtml(name);
+                const safeFileName = escapeHtml(file.name);
+                const safeUrl = escapeHtml(downloadUrl);
+                const safeVersion = escapeHtml(versionTag);
+                const safeSize = escapeHtml(sizeText);
+                const safeLetter = escapeHtml(iconLetter);
+
+                const card = document.createElement('article');
+                card.className = 'app-card';
+                card.setAttribute('data-app', safeFileName);
+
+                // Show "Latest" tag on the newest (first) file
+                const latestTag = index === 0 && totalCount > 1
+                    ? '<span class="card-meta-tag new-tag"><i class="fas fa-star"></i> Latest</span>'
+                    : '';
+
+                card.innerHTML = `
+                    <div class="card-top">
+                        <div class="app-icon-lg ${colorClass}" aria-hidden="true">${safeLetter}</div>
+                        <div class="card-info">
+                            <h3 class="card-app-name">${safeName}</h3>
+                            <p class="card-app-desc">${escapeHtml(description)}</p>
+                            <div class="card-meta-row">
+                                <span class="card-meta-tag"><i class="fas fa-code-branch"></i> ${safeVersion}</span>
+                                <span class="card-meta-tag"><i class="fas fa-mobile-alt"></i> Android</span>
+                                ${latestTag}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-file-row">
+                            <span><i class="fas fa-file-archive"></i> APK • ${safeSize}</span>
+                            <span><i class="fas fa-check-circle" style="color:#30d158;"></i> Available</span>
+                        </div>
+                        <a
+                            class="download-btn-card"
+                            href="${safeUrl}"
+                            download="${safeFileName}"
+                            aria-label="Download ${safeName} APK"
+                        >
+                            <i class="fas fa-download"></i>
+                            Download APK
+                        </a>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            // ===== RENDER APP LIST =====
+            function renderApps(files) {
+                appGrid.innerHTML = '';
+                const count = files.length;
+                if (appCountEl) appCountEl.textContent = count;
+                if (sectionCountEl) sectionCountEl.textContent = `${count} APK${count !== 1 ? 's' : ''}`;
+
+                files.forEach((file, i) => {
+                    appGrid.appendChild(renderAppCard(file, i, count));
+                });
+            }
+
+            // ===== FETCH FROM GITHUB API =====
+            async function fetchAndRender() {
+                renderLoading();
+
+                try {
+                    const response = await fetch(API_URL, {
+                        headers: { 'Accept': 'application/vnd.github.v3+json' }
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error(`Repository "${REPO_OWNER}/${REPO_NAME}" not found or is private.`);
+                        }
+                        if (response.status === 403) {
+                            throw new Error('GitHub API rate limit reached. Please try again in a few minutes.');
+                        }
+                        throw new Error(`GitHub API responded with status ${response.status}.`);
+                    }
+
+                    const contents = await response.json();
+
+                    if (!Array.isArray(contents)) {
+                        throw new Error('Unexpected response format from GitHub API.');
+                    }
+
+                    // Only .apk files at the root
+                    const apkFiles = contents.filter(item =>
+                        item.type === 'file' && item.name.toLowerCase().endsWith('.apk')
+                    );
+
+                    // Sort alphabetically for a stable order
+                    apkFiles.sort((a, b) => a.name.localeCompare(b.name));
+
+                    if (apkFiles.length === 0) {
+                        renderEmpty();
+                        return;
+                    }
+
+                    renderApps(apkFiles);
+
+                } catch (error) {
+                    console.error('Failed to fetch repo contents:', error);
+                    renderError(error.message || 'Network error. Please check your connection and try again.');
+                }
+            }
+
+            // ===== INIT =====
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fetchAndRender);
+            } else {
+                fetchAndRender();
+            }
+        })();
+    </script>
+</body>
+</html>
